@@ -6,7 +6,8 @@
     "upload",
     "supabase",
     "storage",
-    "strapi"
+    "strapi",
+    "provider"
   ],
   "homepage": "https://daemonweb.tools",
   "bugs": {
