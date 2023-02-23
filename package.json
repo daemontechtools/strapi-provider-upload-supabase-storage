@@ -1,0 +1,20 @@
+{
+  "name": "supabase-provider-upload-supabase-storage",
+  "version": "1.0.0",
+  "description": "A Supabase Storage provide for Strapi Upload",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.14.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.8.0"
+  }
+}
