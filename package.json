@@ -2,6 +2,20 @@
   "name": "supabase-provider-upload-supabase-storage",
   "version": "1.0.0",
   "description": "A Supabase Storage provide for Strapi Upload",
+  "keywords": [
+    "upload",
+    "supabase",
+    "storage",
+    "strapi"
+  ],
+  "homepage": "https://daemonweb.tools",
+  "bugs": {
+    "url": "https://github.com/strapi/strapi/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/daemonweb/supabase-provider-upload-supabase-storage.git"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -19,5 +33,9 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.8.0"
+  },
+  "engines": {
+    "node": ">=14.19.1 <=18.x.x",
+    "npm": ">=6.0.0"
   }
 }
