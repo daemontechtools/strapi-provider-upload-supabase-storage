@@ -1,7 +1,7 @@
 {
   "name": "strapi-provider-upload-supabase-storage",
   "version": "1.0.0",
-  "description": "A Supabase Storage provide for Strapi Upload",
+  "description": "A Supabase Storage provider for Strapi Upload",
   "keywords": [
     "upload",
     "supabase",
@@ -11,7 +11,7 @@
   ],
   "homepage": "https://daemonweb.tools",
   "bugs": {
-    "url": "https://github.com/strapi/strapi/issues"
+    "url": "https://github.com/daemonweb/strapi-provider-upload-supabase-storage/issues"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,6 @@
   "scripts": {
     "prepublish": "tsc",
     "build": "tsc",
-    "start": "ts-node index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Josh Elias <josh@daemonweb.tools>",

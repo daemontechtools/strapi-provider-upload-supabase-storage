@@ -38,7 +38,6 @@ async function streamToBuffer(stream: Stream): Promise<Buffer> {
 
 
 module.exports = {
-
     init({
         apiUrl,
         apiKey,
