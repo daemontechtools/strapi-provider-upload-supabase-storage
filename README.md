@@ -92,4 +92,4 @@ module.exports = ({ env }) => [
 
 ## Bucket Privacy
 
-This provider allows you to configure your `Bucket` to be private, however doing so will mean that the Public Url returned to Strapi won't be accessible and will break things like asset thumbnails in Strapi's Media Library. While you'll still be able to delete these assets, any other read/write actions will need to be authenticated with Supabase and satisfy the `Bucket`'s [Security Policy](https://supabase.com/docs/guides/storage/access-control#policy-examples). 
+This provider allows you to configure your `Bucket` to be private. However, doing so will mean that the url returned to Strapi won't be publically accessible. This will break things like asset thumbnails in Strapi's Media Library as you won't be able to reference your assets from any public frontend. While you'll still be able to delete these assets from Strapi, any other read/write actions will need to be authenticated with Supabase and satisfy the `Bucket`'s [Security Policy](https://supabase.com/docs/guides/storage/access-control#policy-examples). 
