@@ -66,7 +66,8 @@ module.exports = {
                     {
                         cacheControl: "3600",
                         upsert: false,
-                        contentType: file.mime
+                        contentType: file.mime,
+                        ...customParams,
                     }
                 );
             if(error) throw error;
