@@ -1,6 +1,6 @@
 # Strapi Upload Provider for Supabase Storage
 
-- This provider was based on Strapi's official [AWS S3 Provider](https://github.com/strapi/strapi/tree/master/packages/providers/upload-aws-s3) but adapted for [Supabase's Storage API](https://supabase.com/docs/guides/storage)
+This provider was based on Strapi's official [AWS S3 Provider](https://github.com/strapi/strapi/tree/master/packages/providers/upload-aws-s3) but adapted for [Supabase's Storage API](https://supabase.com/docs/guides/storage)
 
 ## Links 
 
@@ -40,7 +40,7 @@ module.exports = ({ env }) => ({
             apiUrl: env('SUPABASE_API_URL'),
             bucket: {
                 name: 'strapi-uploads',
-                public: false
+                public: true
             },
         },
         actionOptions: {
@@ -90,18 +90,6 @@ module.exports = ({ env }) => [
 ];
 ```
 
-## Bucket Configuration
+## Bucket Privacy
 
-Although this plugin will create the bucket in Supabase Storage if it doesn't exist, it will be private by default if you didn't set providerOptions.bucket.public to true in the Provider Configuration. Therefore the Public Url returned to Strapi won't be accessible. You can solve  this by making the Bucket public in the Supabase Admin Portal, or giving it an appropriate [Security Policy](https://supabase.com/docs/guides/storage/access-control#policy-examples). 
-
-I recommend adding the `Give users access to a folder only to authenticated users` template to your Bucket from the Supabase Admin Portal.
-```sql
-CREATE POLICY "policy_name"
-ON storage.objects FOR {operation} {USING | WITH CHECK} (
-    -- restrict bucket
-    bucket_id = {bucket_name}
-    AND (storage.foldername(name))[1] = 'private'
-    AND auth.role() = 'authenticated'
-);
-```
-![](add_bucket_policy.gif)
+This provider allows you to configure your `Bucket` to be private, however doing so will mean that the Public Url returned to Strapi won't be accessible and will break things like asset thumbnails in Strapi's Media Library. While you'll still be able to delete these assets, any other read/write actions will need to be authenticated with Supabase and satisfy the `Bucket`'s [Security Policy](https://supabase.com/docs/guides/storage/access-control#policy-examples). 
