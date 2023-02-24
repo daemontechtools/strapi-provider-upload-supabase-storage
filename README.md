@@ -22,7 +22,7 @@ npm install strapi-provider-upload-supabase-storage --save
 ## Configuration
 
 - `provider` defines the name of the provider
-- `providerOptions` is passed down during the construction of the provider. (ex: `supabase.createClient('apiUrl, apiKey, options)`). [Complete list of options](https://supabase.com/docs/reference/javascript/initializing)
+- `providerOptions` is passed down during the construction of the provider. (ex: `supabase.createClient(apiUrl, apiKey, options)`). [Complete list of options](https://supabase.com/docs/reference/javascript/initializing)
 - `actionOptions` is passed directly to the parameters to each method respectively. You can find the complete list of [upload/ uploadStream options](https://supabase.com/docs/reference/javascript/storage-from-upload). There are currently no options for [delete](https://supabase.com/docs/reference/javascript/storage-from-remove).
 
 ### Provider Configuration
@@ -60,7 +60,7 @@ Due to the default settings in the Strapi Security Middleware you will need to m
 `./config/middlewares.js`
 
 ```js
-module.exports = [
+module.exports = ({ env }) => [
   // ...
   {
     name: 'strapi::security',
