@@ -1,6 +1,6 @@
 {
   "name": "strapi-provider-upload-supabase-storage",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A Supabase Storage provider for Strapi Upload",
   "keywords": [
     "upload",
