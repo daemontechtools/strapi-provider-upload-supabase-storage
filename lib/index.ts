@@ -5,19 +5,10 @@ import { Stream } from "stream";
 export type SupabaseStorageProviderOptions = {
     apiUrl: string,
     apiKey: string,
-    bucket?: SupabaseStorageBucketOptions,
+    bucket: string,
     directory?: string,
+    apiInternalDomain?: string,
     options?: Object
-}
-
-export type SupabaseStorageBucketOptions = {
-    name?: string,
-    public?: boolean
-}
-
-const defaultBucketOptions: SupabaseStorageBucketOptions = {
-    name: "strapi-uploads",
-    public: true
 }
 
 export type StrapiFile = {
@@ -51,19 +42,24 @@ module.exports = {
     init({
         apiUrl,
         apiKey,
-        bucket,
+        bucket = "strapi-uploads",
         directory = "",
-
+        apiInternalDomain
     }: SupabaseStorageProviderOptions) {
+
+        if(apiInternalDomain) {
+            const url: URL = new URL(apiUrl);
+            url.hostname = apiInternalDomain;
+            apiUrl = url.href;
+        } 
         const supabase = createClient(apiUrl, apiKey);
-        bucket = { ...defaultBucketOptions, ...bucket };
 
         (async function setupBucket() {
 
             // Get Bucket details
             const { data: bucketInfo, error: getBucketError } = await supabase
                 .storage
-                .getBucket(bucket!.name!)
+                .getBucket(bucket)
 
             if(getBucketError && getBucketError.message !== 'The resource was not found')
                 throw getBucketError;
@@ -73,19 +69,19 @@ module.exports = {
                 const { error: createBucketError } = await supabase
                     .storage
                     .createBucket(
-                        bucket!.name!, 
-                        { public: bucket!.public! }
+                        bucket, 
+                        { public: true }
                     );
                 if(createBucketError) throw createBucketError;
             }
 
             // Edit Bucket privacy if it doesn't match the provider configuration 
-            if(bucketInfo && bucketInfo.public !== bucket!.public) {
+            if(bucketInfo && bucketInfo.public !== true) {
                 const { error: updateBucketError } = await supabase
                     .storage
                     .updateBucket(
-                        bucket!.name!, 
-                        { public: bucket!.public! }
+                        bucket, 
+                        { public: true }
                     );
                 if(updateBucketError) throw updateBucketError;
             }
@@ -106,7 +102,7 @@ module.exports = {
 
             const { error } = await supabase
                 .storage
-                .from(bucket!.name!)
+                .from(bucket)
                 .upload(
                     uploadPath, 
                     uploadData, 
@@ -121,8 +117,10 @@ module.exports = {
    
             const { data: { publicUrl } } = supabase
                 .storage
-                .from(bucket!.name!)
+                .from(bucket)
                 .getPublicUrl(uploadPath);
+
+            // If this is running
             file.url = publicUrl;
         };
         
@@ -134,7 +132,7 @@ module.exports = {
                 const uploadPath = `${directory}/${path}${file.hash}${file.ext}`;
                 const { error } = await supabase
                     .storage
-                    .from(bucket!.name!)
+                    .from(bucket)
                     .remove([uploadPath]);
                 if(error) throw error;
             }
