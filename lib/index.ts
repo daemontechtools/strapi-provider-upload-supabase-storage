@@ -46,13 +46,15 @@ module.exports = {
         directory = "",
         apiInternalDomain
     }: SupabaseStorageProviderOptions) {
-
+        
+        // Connect to the supbase via the internal domain
+        // if it exists
+        const internalApiUrl = new URL(apiUrl);
+        const publicHostname = internalApiUrl.hostname;
         if(apiInternalDomain) {
-            const url: URL = new URL(apiUrl);
-            url.hostname = apiInternalDomain;
-            apiUrl = url.href;
+            internalApiUrl.hostname = apiInternalDomain;
         } 
-        const supabase = createClient(apiUrl, apiKey);
+        const supabase = createClient(internalApiUrl.href, apiKey);
 
         (async function setupBucket() {
 
@@ -120,8 +122,11 @@ module.exports = {
                 .from(bucket)
                 .getPublicUrl(uploadPath);
 
-            // If this is running
-            file.url = publicUrl;
+            // Ensure the public URL comes from the initial hostname
+            // passed into the provider
+            const assetUrl = new URL(publicUrl);
+            assetUrl.hostname = publicHostname;
+            file.url = assetUrl.href;
         };
         
         return {
