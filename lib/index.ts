@@ -132,8 +132,12 @@ module.exports = {
             upload,
             uploadStream: upload,
             delete: async (file: any) => {
+                console.log("Deleting FILE");
+                console.log(file);
                 const path = (file.path) ? file.path : '';
+                console.log('file path: ', path);
                 const uploadPath = `${directory}/${path}${file.hash}${file.ext}`;
+                console.log("update Path: ", uploadPath);
                 const { error } = await supabase
                     .storage
                     .from(bucket)
