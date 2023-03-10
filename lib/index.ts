@@ -93,10 +93,16 @@ module.exports = {
         if(directory)
             directory = directory.replace(/(^\/)|(\/$)/g, "");
 
+        
+        function getUploadPath(file: StrapiFile) {
+            return (directory) 
+                    ? `${directory}/${file.hash}${file.ext}`
+                    : `${file.hash}${file.ext}`
+        }
+
         async function upload(file: StrapiFile, customParams = {}) {
 
-            const path = (file.path) ? file.path : '';
-            const uploadPath = `${directory}/${path}${file.hash}${file.ext}`;
+            const uploadPath = getUploadPath(file);
             const uploadData = (file.stream) 
                 ? await streamToBuffer(file.stream)
                 : Buffer.from(file.buffer!, 'binary');
@@ -131,13 +137,8 @@ module.exports = {
         return {
             upload,
             uploadStream: upload,
-            delete: async (file: any) => {
-                console.log("Deleting FILE");
-                console.log(file);
-                const path = (file.path) ? file.path : '';
-                console.log('file path: ', path);
-                const uploadPath = `${directory}/${path}${file.hash}${file.ext}`;
-                console.log("update Path: ", uploadPath);
+            delete: async (file: StrapiFile) => {
+                const uploadPath = getUploadPath(file);
                 const { error } = await supabase
                     .storage
                     .from(bucket)
